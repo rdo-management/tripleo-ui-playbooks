@@ -1,0 +1,11 @@
+- name: Setup the TripleO UI and dependencies on RHOS9
+  hosts: undercloud
+
+  roles:
+    - common
+    - mistral-packages
+    - python-tripleoclient
+    - mistral-httpd-patch
+    - zaqar-undercloud-option-patch
+    - undercloud-install
+    - tripleo-ui-osp9

@@ -1,0 +1,19 @@
+- name: Copy undercloud.conf
+  copy: src=/usr/share/instack-undercloud/undercloud.conf.sample dest=/home/stack/undercloud.conf backup=yes
+
+- name: Enable mistral in undercloud.conf
+  ini_file: dest=/home/stack/undercloud.conf section=DEFAULT option=enable_mistral value=true backup=yes
+
+- name: Enable zaqar in undercloud.conf
+  ini_file: dest=/home/stack/undercloud.conf section=DEFAULT option=enable_zaqar value=true
+
+- name: Find stackrc
+  stat: path=/home/stack/stackrc
+  register: stackrc
+
+- name: Install undercloud (this will take a while!)
+  environment: 
+    DIB_INSTALLTYPE_puppet_modules: "{{ dib_install_type_puppet_modules }}"
+  shell: openstack undercloud install
+  when: stackrc.stat.exists == false
+

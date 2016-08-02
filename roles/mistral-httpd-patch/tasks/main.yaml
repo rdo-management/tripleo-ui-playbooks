@@ -1,0 +1,11 @@
+- name: Patch puppet-stack-config/puppet-stack-config.pp
+  patch: src=../files/puppet-stack-config.pp.patch
+         dest=/usr/share/instack-undercloud/puppet-stack-config/puppet-stack-config.pp
+         backup=yes
+  sudo: yes
+
+- name: Patch puppet-stack-config/puppet-stack-config.yaml.template
+  patch: src=../files/puppet-stack-config.yaml.template.patch
+         dest=/usr/share/instack-undercloud/puppet-stack-config/puppet-stack-config.yaml.template
+         backup=yes
+  sudo: yes

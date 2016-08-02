@@ -1,0 +1,3 @@
+- name: Install python-tripleoclient
+  yum: name=python-tripleoclient
+  sudo: yes

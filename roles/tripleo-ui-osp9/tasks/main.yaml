@@ -1,0 +1,14 @@
+- name: Clone TripleO UI Repo
+  git: repo=https://github.com/rdo-management/rdo-director-ui-production.git
+       dest=/home/stack/tripleo-ui
+       depth=1
+
+- name: Copy app.conf
+  copy: src=/home/stack/tripleo-ui/app.conf.sample
+        dest=/home/stack/tripleo-ui/app.conf
+
+- name: Set TripleO API URL in app.conf
+  ini_file: dest=/home/stack/tripleo-ui/app.conf
+            section=app
+            option=tripleo
+            value="{{ undercloud_service_host }}"
