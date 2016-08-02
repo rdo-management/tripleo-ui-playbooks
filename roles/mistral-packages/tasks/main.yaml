@@ -1,0 +1,27 @@
+- name: Select rhos10 repo
+  shell: rhos-release 10
+  sudo: yes
+
+- name: Install 
+  yum: name=openstack-mistral-all
+  sudo: yes
+
+- name: Install 
+  yum: name=openstack-mistral-api
+  sudo: yes
+
+- name: Install 
+  yum: name=openstack-mistral-engine
+  sudo: yes
+
+- name: Install 
+  yum: name=openstack-mistral-executor
+  sudo: yes
+
+- name: Select rhos9 director repo
+  shell: rhos-release 9-director
+  sudo: yes
+
+- name: Remove rhos10 yum repo
+  file: path=/etc/yum.repos.d/rhos-release-10.repo state=absent
+  sudo: yes
