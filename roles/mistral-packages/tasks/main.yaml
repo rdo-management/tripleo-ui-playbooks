@@ -2,19 +2,19 @@
   shell: rhos-release 10
   sudo: yes
 
-- name: Install 
+- name: Install openstack-mistral-all
   yum: name=openstack-mistral-all
   sudo: yes
 
-- name: Install 
+- name: Install openstack-mistral-api
   yum: name=openstack-mistral-api
   sudo: yes
 
-- name: Install 
+- name: Install openstack-mistral-engine
   yum: name=openstack-mistral-engine
   sudo: yes
 
-- name: Install 
+- name: Install openstack-mistral-executor
   yum: name=openstack-mistral-executor
   sudo: yes
 

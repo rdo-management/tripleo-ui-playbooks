@@ -3,5 +3,5 @@
   sudo: yes
 
 - name: Install tox
-  yum: name=tox
+  pip: name=tox
   sudo: yes
