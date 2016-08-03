@@ -23,5 +23,14 @@ cp hosts.sample hosts
 Add necessary settings to hosts file.
 
 
-## Run a playbook
-ansible-playbook -i hosts rhos9.yaml
+## Install UI on OSP9
+```
+# Set up prerequisites for undercloud installation.
+ansible-playbook -i hosts rhos9-pre-install.yaml
+
+# Continue with the undercloud install.
+openstack undercloud install
+
+# Make some UI-related changes to the freshly installed undercloud.
+ansible-playbook -i hosts rhos9-pre-install.yaml
+```

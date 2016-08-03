@@ -7,5 +7,5 @@
     - python-tripleoclient
     - mistral-httpd-patch
     - zaqar-undercloud-option-patch
-    - undercloud-install
+    - undercloud-conf
     - tripleo-ui-osp9
