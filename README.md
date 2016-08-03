@@ -3,9 +3,12 @@
 
 ## Prerequisites
 
-Install Pip and Ansible
+Install Dependencies and Ansible
 
 ```
+sudo yum install -y gcc
+sudo yum install -y openssl-devel
+sudo yum install -y python-devel
 sudo easy_install pip
 sudo pip install ansible
 ```
