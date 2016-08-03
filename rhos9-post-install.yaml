@@ -1,0 +1,5 @@
+- name: Set up the prerequisites for a TripleO UI undercloud install
+  hosts: undercloud
+
+  roles:
+    - tripleo-ui-osp9

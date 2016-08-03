@@ -31,6 +31,6 @@ ansible-playbook -i hosts rhos9-pre-install.yaml
 # Continue with the undercloud install.
 openstack undercloud install
 
-# Make some UI-related changes to the freshly installed undercloud.
-ansible-playbook -i hosts rhos9-pre-install.yaml
+# Install TripleO UI and make related changes.
+ansible-playbook -i hosts rhos9-post-install.yaml
 ```

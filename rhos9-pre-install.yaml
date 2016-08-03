@@ -1,4 +1,4 @@
-- name: Setup the TripleO UI and dependencies on RHOS9
+- name: Set up the prerequisites for a TripleO UI undercloud install
   hosts: undercloud
 
   roles:
@@ -8,4 +8,3 @@
     - mistral-httpd-patch
     - zaqar-undercloud-option-patch
     - undercloud-conf
-    - tripleo-ui-osp9
