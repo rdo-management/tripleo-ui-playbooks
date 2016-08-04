@@ -3,3 +3,6 @@
 
   roles:
     - tripleo-ui-osp9
+    - cors-settings
+    - validations-api
+    - tripleo-common

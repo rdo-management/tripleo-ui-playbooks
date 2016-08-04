@@ -1,0 +1,4 @@
+- name: Clone tripleo-common repository
+  git: repo=https://git.openstack.org/openstack/tripleo-common
+       dest=/home/stack/tripleo-common
+       update=no
