@@ -6,3 +6,4 @@
     - cors-settings
     - validations-api
     - tripleo-common
+    - rhci-tripleo-api

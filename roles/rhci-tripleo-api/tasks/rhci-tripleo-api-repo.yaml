@@ -1,0 +1,4 @@
+- name: Clone rhci-tripleo-api repository
+  git: repo=http://git.app.eng.bos.redhat.com/git/rhci-tripleo-api.git
+       dest=/home/stack/rhci-tripleo-api
+       update=no
