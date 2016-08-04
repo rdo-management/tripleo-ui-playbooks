@@ -17,6 +17,7 @@ Install Dependencies and Ansible
 sudo yum install -y gcc
 sudo yum install -y openssl-devel
 sudo yum install -y python-devel
+sudo yum install -y python-setuptools
 sudo easy_install pip
 sudo pip install ansible
 ```
