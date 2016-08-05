@@ -2,3 +2,30 @@
   git: repo=https://git.openstack.org/openstack/tripleo-common
        dest=/home/stack/tripleo-common
        update=no
+
+- name: Remove existing tripleo-common installation
+  shell: rm -Rf /usr/lib/python2.7/site-packages/tripleo_common*
+  sudo: yes
+
+- name: Install tripleo-common from source
+  shell: python setup.py install
+  args:
+    chdir: /home/stack/tripleo-common
+  sudo: yes
+
+- name: Restart systemctl restart openstack-mistral-executor
+  shell: systemctl restart openstack-mistral-executor
+  sudo: yes
+
+- name: Restart systemctl restart openstack-mistral-engine
+  shell: systemctl restart openstack-mistral-engine
+  sudo: yes
+
+- name: Populate mistral db
+  shell: mistral-db-manage populate
+  sudo: yes
+
+- name: action list
+  shell: source ~/stackrc && mistral action-list
+  args:
+    executable: /bin/bash
