@@ -1,3 +1,11 @@
+- name: Set cors allowed_origin in /etc/keystone/keystone.conf
+  ini_file: dest="/etc/keystone/keystone.conf" section=cors option=allowed_origin value=* backup=yes
+  sudo: yes
+
+- name: Restart httpd
+  service: name=httpd state=restarted
+  sudo: yes
+
 - name: Set cors allowed_origin in /etc/ironic/ironic.conf
   ini_file: dest="/etc/ironic/ironic.conf" section=cors option=allowed_origin value=* backup=yes
   sudo: yes

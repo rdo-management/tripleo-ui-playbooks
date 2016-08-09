@@ -8,3 +8,5 @@
     - validations-api
     - tripleo-common
     - rhci-tripleo-api
+    - glance-name-fix
+
