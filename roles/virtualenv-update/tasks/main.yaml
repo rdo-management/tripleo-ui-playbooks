@@ -1,0 +1,7 @@
+- name: Remove virtualenv package
+  yum: name=python-virtualenv state=absent
+  sudo: yes
+
+- name: Install latest virtualenv from PIP
+  pip: name=virtualenv state=latest
+  sudo: yes
