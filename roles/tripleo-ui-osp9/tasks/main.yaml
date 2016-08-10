@@ -7,8 +7,86 @@
   copy: src=/home/stack/tripleo-ui/app.conf.sample
         dest=/home/stack/tripleo-ui/app.conf
 
-- name: Set TripleO API URL in app.conf
+- name: Set app port  in app.conf
+  ini_file: dest=/home/stack/tripleo-ui/app.conf
+            section=service
+            option=bind_port
+            value=8889
+
+- name: Set tripleO API URL in app.conf
   ini_file: dest=/home/stack/tripleo-ui/app.conf
             section=app
             option=tripleo
-            value="{{ undercloud_service_host }}"
+            value="http://{{ undercloud_service_host }}:8585/v1"
+
+- name: Set validations API URL in app.conf
+  ini_file: dest=/home/stack/tripleo-ui/app.conf
+            section=app
+            option=validations
+            value="http://{{ undercloud_service_host }}:5001/v1"
+
+- name: Get keystone url
+  shell: source ~/stackrc && openstack catalog show keystone | grep publicURL | sed -E 's/^.*(https?:\/\/)[^:]+(:[^ \|]+).*/\1{{ undercloud_service_host }}\2/g'
+  register: keystone_url
+  args:
+    executable: /bin/bash
+
+- name: Set keystone API URL in app.conf
+  ini_file: dest=/home/stack/tripleo-ui/app.conf
+            section=app
+            option=keystone
+            value={{ keystone_url.stdout }}
+
+- name: Get heat url
+  shell: source ~/stackrc && openstack catalog show heat | grep publicURL | sed -E 's/^.*(https?:\/\/)[^:]+(:[^ \|]+).*/\1{{ undercloud_service_host }}\2/g'
+  register: heat_url
+  args:
+    executable: /bin/bash
+
+- name: Set heat API URL in app.conf
+  ini_file: dest=/home/stack/tripleo-ui/app.conf
+            section=app
+            option=heat
+            value={{ heat_url.stdout }}
+
+- name: Get swift url
+  shell: source ~/stackrc && openstack catalog show swift | grep publicURL | sed -E 's/^.*(https?:\/\/)[^:]+(:[^ \|]+).*/\1{{ undercloud_service_host }}\2/g'
+  register: swift_url
+  args:
+    executable: /bin/bash
+
+- name: Set swift API URL in app.conf
+  ini_file: dest=/home/stack/tripleo-ui/app.conf
+            section=app
+            option=swift
+            value={{ swift_url.stdout }}
+
+- name: Get ironic url
+  shell: source ~/stackrc && openstack catalog show ironic | grep publicURL | sed -E 's/^.*(https?:\/\/)[^:]+(:[^ \|]+).*/\1{{ undercloud_service_host }}\2/g'
+  register: ironic_url
+  args:
+    executable: /bin/bash
+
+- name: Set ironic API URL in app.conf
+  ini_file: dest=/home/stack/tripleo-ui/app.conf
+            section=app
+            option=ironic
+            value={{ ironic_url.stdout }}
+
+- name: Get mistral url
+  shell: source ~/stackrc && openstack catalog show mistral | grep publicURL | sed -E 's/^.*(https?:\/\/)[^:]+(:[^ \|]+).*/\1{{ undercloud_service_host }}\2/g'
+  register: mistral_url
+  args:
+    executable: /bin/bash
+
+- name: Set mistral API URL in app.conf
+  ini_file: dest=/home/stack/tripleo-ui/app.conf
+            section=app
+            option=mistral
+            value={{ mistral_url.stdout }}
+
+- name: Set zaqar websocket URL in app.conf
+  ini_file: dest=/home/stack/tripleo-ui/app.conf
+            section=app
+            option=zaqar_websocket_url
+            value="ws://{{ undercloud_service_host }}:9000"
