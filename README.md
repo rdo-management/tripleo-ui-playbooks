@@ -1,5 +1,6 @@
 # TripleO UI Playbooks
 
+Scripts and playbooks to setup the TripleO-UI on RHOS9.
 
 
 ## Environment
@@ -50,7 +51,8 @@ su - stack
 Clone this repository and create a `hosts` file:
 
 ```
-# Inside the repository directory:
+clone https://github.com/flofuchs/tripleo-ui-playbooks.git
+cd tripleo-ui-playbooks
 cp hosts.sample hosts
 ```
 
@@ -67,4 +69,21 @@ Once the `hosts` file exists you can start the installation:
 ```
 # Inside the repository directory:
 ./rhos9-complete.sh
+```
+
+## UI and API services
+
+The setup will create three tmux sessions to run the TripleO-UI as well as the legacy TripleO and Validations APIs.
+
+To attach to these sessions, use one of the following commands:
+
+```
+# TripleO UI:
+tmux attach -t tripleo-ui
+
+# TripleO API:
+tmux attach -t tripleo-api
+
+# Validations API:
+tmux attach -t validations-api
 ```
