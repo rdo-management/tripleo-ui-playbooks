@@ -22,3 +22,15 @@
   service:  name=iptables state=restarted
   sudo: yes
   when: iptables_validations_api.stdout == "0"
+
+- name: Check for existing validations-api tmux session
+  shell: tmux ls | grep validations-api | wc -l
+  register: validations_api_session_exists
+
+- name: Kill existing validations-api tmux session
+  shell: tmux kill-session -t validations-api
+  ignore_errors: yes
+  when: validations_api_session_exists.stdout == "1"
+
+- name: Create validations-api tmux session
+  shell: tmux new -s validations-api -d && tmux send-keys -t validations-api 'cd ~/clapper/ansible-tests' C-m && tmux send-keys -t validations-api 'source .venv/bin/activate' C-m && tmux send-keys -t validations-api 'source ~/stackrc' C-m && tmux send-keys -t validations-api './validation-api.py' C-m 

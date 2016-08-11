@@ -1,3 +1,7 @@
 - name: Install tox
   pip: name=tox
   sudo: yes
+
+- name: Install vim
+  yum: name=tmux
+  sudo: yes

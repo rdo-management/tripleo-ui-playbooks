@@ -90,3 +90,15 @@
             section=app
             option=zaqar_websocket_url
             value="ws://{{ undercloud_service_host }}:9000"
+
+- name: Check for existing tripleo-ui tmux session
+  shell: tmux ls | grep tripleo-ui | wc -l
+  register: tripleo_ui_session_exists
+
+- name: Kill existing tripleo-ui tmux session
+  shell: tmux kill-session -t tripleo-ui
+  ignore_errors: yes
+  when: tripleo_ui_session_exists.stdout == "1"
+
+- name: Create tmux session
+  shell: tmux new -s tripleo-ui -d && tmux send-keys -t tripleo-ui 'cd ~/tripleo-ui' C-m && tmux send-keys -t tripleo-ui 'tox -e venv tripleo-ui -- --config-file app.conf' C-m
