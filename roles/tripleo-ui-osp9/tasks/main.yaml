@@ -91,11 +91,20 @@
             option=zaqar_websocket_url
             value="ws://{{ undercloud_service_host }}:9000"
 
-- name: Add osp9 unmerged js assets
-  copy: src=../files/*js* /home/stack/tripleo-ui/tripleo_ui/static/js/
+- name: Add osp9 unmerged tripleo_ui.js
+  copy: src=../files/tripleo_ui.js dest=/home/stack/tripleo-ui/tripleo_ui/static/js/tripleo_ui.js
 
-- name: Add osp9 unmerged css assets
-  copy: src=../files/base.css /home/stack/tripleo-ui/tripleo_ui/static/css/base.css
+- name: Add osp9 unmerged tripleo_ui.js.map
+  copy: src=../files/tripleo_ui.js.map dest=/home/stack/tripleo-ui/tripleo_ui/static/js/tripleo_ui.js.map
+
+- name: Add osp9 unmerged tripleo_ui_tempstorage_worker.js
+  copy: src=../files/tripleo_ui_tempstorage_worker.js dest=/home/stack/tripleo-ui/tripleo_ui/static/js/tripleo_ui_tempstorage_worker.js
+
+- name: Add osp9 unmerged tripleo_ui_tempstorage_worker.js.map
+  copy: src=../files/tripleo_ui_tempstorage_worker.js.map dest=/home/stack/tripleo-ui/tripleo_ui/static/js/tripleo_ui_tempstorage_worker.js.map
+
+- name: Add osp9 unmerged base.css
+  copy: src=../files/base.css dest=/home/stack/tripleo-ui/tripleo_ui/static/css/base.css
 
 - name: Check for existing tripleo-ui tmux session
   shell: tmux ls | grep tripleo-ui | wc -l
