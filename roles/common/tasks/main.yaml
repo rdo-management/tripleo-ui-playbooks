@@ -1,7 +1,3 @@
-- name: Install latest puddle
-  yum: name=http://rhos-release.virt.bos.redhat.com/repos/rhos-release/rhos-release-latest.noarch.rpm
-  sudo: yes
-
 - name: Install tox
   pip: name=tox
   sudo: yes

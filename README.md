@@ -1,9 +1,8 @@
 # TripleO UI Playbooks
 
 
-## Prerequisites
 
-### Virtual Env
+## Environment
 
 If you are using a virtual environment, use the following steps to create the virtual machines:
 
@@ -33,11 +32,10 @@ export UNDERCLOUD_NODE_MEM=16384
 # Set up the VMs
 instack-virt-setup
 ```
+Once that's done login to the`instack` vm.
 
-Once that's done login to the `instack` vm.
 
-
-### Make sure the `stack` user exists or create it:
+## Make sure the `stack` user exists or create it:
 
 ```
 sudo useradd stack
@@ -47,46 +45,26 @@ sudo chmod 0440 /etc/sudoers.d/stack
 su - stack
 ```
 
+## Settings and Installation
 
-### Install latest puddle
-
-```
-sudo yum localinstall -y http://rhos-release.virt.bos.redhat.com/repos/rhos-release/rhos-release-latest.noarch.rpm
-sudo rhos-release -P 9-director
-```
-
-
-### Install Dependencies and Ansible
+Clone this repository and create a `hosts` file:
 
 ```
-sudo yum install -y gcc
-sudo yum install -y openssl-devel
-sudo yum install -y python-devel
-sudo yum install -y python-setuptools
-sudo easy_install pip
-sudo pip install ansible
-```
-
-## Settings
-
-```
+# Inside the repository directory:
 cp hosts.sample hosts
 ```
 
-Add necessary settings to hosts file.
+Change your `hosts` file:
 
+**`undercloud_service_host`:** This is the IP or hostname the GUI will use to connect to the undercloud. It needs to be accessible from outside the undercloud.
 
-## Install UI on OSP9
+**Note:** In a virtual env, if you use a tunnel from the VM host machine to the undercloud vm, this needs to be set to the VM host's IP/hostname.
+
+**`dib_install_type_puppet_modules`:** can be set to install puppet modules from source instead of using the packages. **Not recommended!**
+
+Once the `hosts` file exists you can start the installation:
 
 ```
-# Set up prerequisites for undercloud installation.
-ansible-playbook -i hosts rhos9-pre-install.yaml
-
-# Continue with the undercloud install.
-openstack undercloud install
-
-# Install TripleO UI and make related changes.
-ansible-playbook -i hosts rhos9-post-install.yaml
+# Inside the repository directory:
+./rhos9-complete.sh
 ```
-
-The 3 steps above can be run with one `./rhos9-complete.sh` call.

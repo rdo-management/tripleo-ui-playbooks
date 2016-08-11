@@ -3,7 +3,6 @@
 
   roles:
     - common
-    - mistral-packages
     - python-tripleoclient
     - mistral-httpd-patch
     - zaqar-undercloud-option-patch
