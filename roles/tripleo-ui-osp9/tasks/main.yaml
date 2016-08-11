@@ -106,6 +106,9 @@
 - name: Add osp9 unmerged base.css
   copy: src=../files/base.css dest=/home/stack/tripleo-ui/tripleo_ui/static/css/base.css
 
+- name: Add osp9 unmerged app.py 
+  copy: src=../files/app.py dest=/home/stack/tripleo-ui/tripleo_ui/app.py
+
 - name: Check for existing tripleo-ui tmux session
   shell: tmux ls | grep tripleo-ui | wc -l
   register: tripleo_ui_session_exists
