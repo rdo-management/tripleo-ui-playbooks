@@ -66,10 +66,25 @@ Change your `hosts` file:
 
 Once the `hosts` file exists you can start the installation:
 
+This will start the whole installation using the default values in `undercloud.conf`:
+
 ```
 # Inside the repository directory:
 ./rhos9-complete.sh
 ```
+
+If you'd like to make changes to `undercloud.conf` between the installation of python-tripleoclient and the undercloud, run these three commands in sequence:
+
+```
+./rhos9-pre-undercloud-install.sh
+
+# Make changes to undercloud.conf here.
+
+openstack undercloud install
+
+ansible-playbook -i hosts rhos9-post-install.yaml
+```
+
 
 ## UI and API services
 
