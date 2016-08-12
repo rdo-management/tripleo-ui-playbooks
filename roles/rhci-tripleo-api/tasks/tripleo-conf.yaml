@@ -2,31 +2,58 @@
   shell: cp "/home/stack/rhci-tripleo-api/etc/tripleo/tripleo.conf.sample" "/home/stack/rhci-tripleo-api/tripleo.conf"
   args:
     creates: "/home/stack/rhci-tripleo-api/tripleo.conf" 
+  tags:
+    - tripleo-api
+    - tripleo-api-conf
 
 - name: Set cors allowed_origin in tripleo.conf
   ini_file: dest="/home/stack/rhci-tripleo-api/tripleo.conf" section=cors option=allowed_origin value=*
 
 - name: Set cors allow_methods in tripleo.conf
   ini_file: dest="/home/stack/rhci-tripleo-api/tripleo.conf" section=cors option=allow_methods value=GET,POST,PATCH,PUT,DELETE,OPTIONS
+  tags:
+    - tripleo-api
+    - tripleo-api-conf
 
 - name: Set cors allow_headers in tripleo.conf
   ini_file: dest="/home/stack/rhci-tripleo-api/tripleo.conf" section=cors option=allow_headers value=Content-Type,Cache-Control,Content-Language,Expires,Last-Modified,Pragma,X-Auth-Token
+  tags:
+    - tripleo-api
+    - tripleo-api-conf
 
 - name: Read keystone password from undercloud-passwords.conf
   shell: grep undercloud_admin_password /home/stack/undercloud-passwords.conf | awk -F = '{print $2}'
   register: undercloud_admin_password
+  tags:
+    - tripleo-api
+    - tripleo-api-conf
 
 - name: Set keystone password in tripleo.conf
   ini_file: dest="/home/stack/rhci-tripleo-api/tripleo.conf" section=keystone option=password value="{{ undercloud_admin_password.stdout }}"
+  tags:
+    - tripleo-api
+    - tripleo-api-conf
 
 - name: Set keystone auth_url in tripleo.conf
   ini_file: dest="/home/stack/rhci-tripleo-api/tripleo.conf" section=keystone option=auth_url value=http://192.0.2.1:35357/v2.0
+  tags:
+    - tripleo-api
+    - tripleo-api-conf
 
 - name: Set keystone_authtoken identity_uri in tripleo.conf
   ini_file: dest="/home/stack/rhci-tripleo-api/tripleo.conf" section=keystone_authtoken option=identity_uri value=http://192.0.2.1:35357/
+  tags:
+    - tripleo-api
+    - tripleo-api-conf
 
 - name: Set keystone_authtoken admin_user in tripleo.conf
   ini_file: dest="/home/stack/rhci-tripleo-api/tripleo.conf" section=keystone_authtoken option=admin_user value=admin
+  tags:
+    - tripleo-api
+    - tripleo-api-conf
 
 - name: Set keystone_authtoken admin_password in tripleo.conf
   ini_file: dest="/home/stack/rhci-tripleo-api/tripleo.conf" section=keystone_authtoken option=admin_password value="{{ undercloud_admin_password.stdout }}"
+  tags:
+    - tripleo-api
+    - tripleo-api-conf

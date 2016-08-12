@@ -3,3 +3,4 @@
 - include: tripleo-conf.yaml
 - include: rhci-tripleo-api-firewall.yaml
 - include: tmux-session.yaml
+- include: capabilities-detection-patch.yaml

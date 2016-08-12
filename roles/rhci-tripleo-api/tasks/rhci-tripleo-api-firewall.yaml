@@ -3,13 +3,19 @@
   sudo: yes
   register: iptables_tripleo_port
   ignore_errors: True
+  tags:
+    - tripleo-api
 
 - name: Open port 8585 in firewall
   shell: iptables -A INPUT -p tcp -m tcp --dport 8585 -j ACCEPT && iptables-save > /etc/sysconfig/iptables
   sudo: yes
   when: iptables_tripleo_port.stdout == "0"
+  tags:
+    - tripleo-api
 
 - name: Restart iptables
   service:  name=iptables state=restarted
   sudo: yes
   when: iptables_tripleo_port.stdout == "0"
+  tags:
+    - tripleo-api

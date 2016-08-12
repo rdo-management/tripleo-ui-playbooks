@@ -1,7 +1,11 @@
 - name: Install libffi-devel
   yum: name=libffi-devel state=latest
   sudo: yes
+  tags:
+    - tripleo-api
 
 - name: Install openssl-devel
   yum: name=openssl-devel state=latest
   sudo: yes
+  tags:
+    - tripleo-api

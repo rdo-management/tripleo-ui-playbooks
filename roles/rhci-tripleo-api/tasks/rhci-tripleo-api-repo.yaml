@@ -2,3 +2,5 @@
   git: repo=http://git.app.eng.bos.redhat.com/git/rhci-tripleo-api.git
        dest=/home/stack/rhci-tripleo-api
        update=no
+  tags:
+    - tripleo-api
