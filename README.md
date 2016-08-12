@@ -51,7 +51,7 @@ su - stack
 Clone this repository and create a `hosts` file:
 
 ```
-clone https://github.com/flofuchs/tripleo-ui-playbooks.git
+git clone https://github.com/flofuchs/tripleo-ui-playbooks.git
 cd tripleo-ui-playbooks
 cp hosts.sample hosts
 ```
@@ -76,12 +76,10 @@ This will start the whole installation using the default values in `undercloud.c
 If you'd like to make changes to `undercloud.conf` between the installation of python-tripleoclient and the undercloud, run these three commands in sequence:
 
 ```
+# Inside the repository directory:
 ./rhos9-pre-undercloud-install.sh
-
-# Make changes to undercloud.conf here.
-
+# Make changes to undercloud.conf here...
 openstack undercloud install
-
 ansible-playbook -i hosts rhos9-post-install.yaml
 ```
 
