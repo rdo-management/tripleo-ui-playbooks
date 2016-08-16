@@ -3,7 +3,7 @@
 Scripts and playbooks to setup the TripleO-UI on RHOS9.
 
 
-## Environment
+## Environment (optional)
 
 If you are using a virtual environment, use the following steps to create the virtual machines:
 
@@ -33,6 +33,7 @@ export UNDERCLOUD_NODE_MEM=16384
 # Set up the VMs
 instack-virt-setup
 ```
+
 Once that's done login to the`instack` vm.
 
 
