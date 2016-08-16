@@ -1,0 +1,4 @@
+- name: Rename glance service
+  environment:
+    GLANCE_EXTRA_JSON: '{"description": "OpenStack Image Service", "name": "glance"}'
+  shell: mysql -sN -uroot -e "UPDATE service SET extra='${GLANCE_EXTRA_JSON}' WHERE type='image'" keystone

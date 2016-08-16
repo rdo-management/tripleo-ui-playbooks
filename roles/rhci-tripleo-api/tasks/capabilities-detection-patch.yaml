@@ -1,0 +1,8 @@
+- name: Patch tripleo-api capabilities map file detection
+  patch: src=../files/capabilities-file-detection.patch
+         dest=/home/stack/rhci-tripleo-api/tripleo_api/utils/capabilities.py
+         backup=yes
+  tags:
+    - tripleo-api
+    - capabilities-map-detection
+

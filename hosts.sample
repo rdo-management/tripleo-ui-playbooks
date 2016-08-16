@@ -1,0 +1,10 @@
+[undercloud]
+localhost   ansible_connection=local
+
+[undercloud:vars]
+# Undercloud service host or IP
+# undercloud_service_host = 192.0.2.1
+
+# Set DIB_INSTALLTYPE_puppet_modules env var.
+# Values can be "package" or "source"
+# dib_install_type_puppet_modules = package

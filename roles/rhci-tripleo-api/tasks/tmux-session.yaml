@@ -1,0 +1,17 @@
+- name: Check for existing tripleo-api tmux session
+  shell: tmux ls | grep tripleo-api | wc -l
+  register: tripleo_api_session_exists
+  tags:
+    - tripleo-api
+
+- name: Kill existing tripleo-api tmux session
+  shell: tmux kill-session -t tripleo-api
+  ignore_errors: yes
+  when: tripleo_api_session_exists.stdout == "1"
+  tags:
+    - tripleo-api
+
+- name: Create tripleo-api tmux session
+  shell: tmux new -s tripleo-api -d && tmux send-keys -t tripleo-api 'cd ~/rhci-tripleo-api' C-m && tmux send-keys -t tripleo-api 'tox -e venv -- tripleo-api --config-file tripleo.conf' C-m
+  tags:
+    - tripleo-api

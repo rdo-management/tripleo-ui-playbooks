@@ -1,0 +1,5 @@
+- name: Patch /usr/lib/python2.7/site-packages/instack_undercloud/undercloud.py
+  patch: src=../files/undercloud.py.patch
+         dest=/usr/lib/python2.7/site-packages/instack_undercloud/undercloud.py
+         backup=yes
+  sudo: yes

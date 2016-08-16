@@ -1,0 +1,9 @@
+@@ -28,7 +28,7 @@
+ 
+     for template_path, val in plan_files.items():
+         file_type = val.get('meta', {}).get('file-type')
+-        if file_type == 'capabilities-map':
++        if template_path == 'capabilities-map.yaml':
+             mapping = yaml.load(plan_files[template_path]['contents'])
+             for topic in mapping['topics']:
+                 for environment_group in topic['environment_groups']:

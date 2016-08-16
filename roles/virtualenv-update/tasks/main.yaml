@@ -1,0 +1,11 @@
+- name: Remove virtualenv package
+  yum: name=python-virtualenv state=absent
+  sudo: yes
+
+- name: Remove source dir
+  shell: rm -rf /usr/lib/python2.7/site-packages/virtualenv-*
+  sudo: yes
+
+- name: Install latest virtualenv from PIP
+  pip: name=virtualenv state=latest
+  sudo: yes

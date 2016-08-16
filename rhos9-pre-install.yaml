@@ -1,0 +1,9 @@
+- name: Set up the prerequisites for a TripleO UI undercloud install
+  hosts: undercloud
+
+  roles:
+    - common
+    - python-tripleoclient
+    - mistral-httpd-patch
+    - zaqar-undercloud-option-patch
+    - undercloud-conf

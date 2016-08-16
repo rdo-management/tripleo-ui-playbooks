@@ -1,0 +1,11 @@
+@@ -294,6 +294,10 @@
+                help=('Mistral service password. '
+                      'If left unset, one will be automatically generated.')
+                ),
++    cfg.StrOpt('undercloud_zaqar_password',
++               help=('Zaqar service password. '
++                     'If left unset, one will be automatically generated.')
++               ),
+     cfg.StrOpt('undercloud_rabbit_cookie',
+                help=('Rabbitmq cookie. '
+                      'If left unset, one will be automatically generated.')
