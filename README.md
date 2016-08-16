@@ -100,3 +100,40 @@ tmux attach -t tripleo-api
 # Validations API:
 tmux attach -t validations-api
 ```
+
+
+## Image creation and upload
+
+To create the images for the overcloud nodes, continue with the following commands:
+
+```
+source ~/stackrc
+mkdir ~/images
+
+sudo yum install -y rhosp-director-images rhosp-director-images-ipa
+cp /usr/share/rhosp-director-images/overcloud-full-latest-9.0.tar ~/images/.
+cp /usr/share/rhosp-director-images/ironic-python-agent-latest-9.0.tar ~/images/.
+cd ~/images
+for tarfile in *.tar; do tar -xf $tarfile; done
+openstack overcloud image upload --image-path /home/stack/images/
+
+#  Make sure all images have been uploaded:
+openstack image list
+```
+
+## Node registration (optional)
+
+The following steps can be done through the UI as well, so this step is optional.
+
+```
+# Register nodes.
+openstack baremetal import --json ~/instackenv.json
+openstack baremetal configure boot
+
+# List nodes to see if registration has been successful.
+ironic node-list
+
+# Start introspection.
+openstack baremetal introspection bulk start
+```
+
