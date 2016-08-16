@@ -102,6 +102,10 @@ tmux attach -t tripleo-api
 tmux attach -t validations-api
 ```
 
+At this point the UI can be accessed on `http://<undercloud_service_host>:8889`. 
+
+The username is admin; the password can be found in `/home/stack/undercloud-passwords.conf` (`undercloud_admin_password`).
+
 
 ## Image creation and upload
 
