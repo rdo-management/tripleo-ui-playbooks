@@ -1,14 +1,13 @@
 # FEATURES
 
-## Common Tasks
+## Dependencies
 
-- Installs tox
-- Installs tmux
+- Install tox, tmux, gcc, openssl-devel, python-devel, pip, ansible
 - Update virtualenv
 
 ## Mistral
 
-- Installs missing Mistral packages
+- Install missing Mistral packages
 - Patch mistral puppet modules, so Mistral doesn't run under httpd
 
 ## Zaqar
