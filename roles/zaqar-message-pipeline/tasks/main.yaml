@@ -1,0 +1,17 @@
+- name: Add message pipeline setting to zaqar.conf
+  ini_file: dest=/etc/zaqar/zaqar.conf
+            section=storage
+            option=message_pipeline
+            value=zaqar.notification.notifier
+            backup=yes
+  sudo: yes
+  tags:
+    - zaqar
+    - zaqar-message-pipeline
+
+- name: Restart zaqar service
+  service: name=openstack-zaqar state=restarted
+  sudo: yes
+  tags:
+    - zaqar
+    - zaqar-message-pipeline
