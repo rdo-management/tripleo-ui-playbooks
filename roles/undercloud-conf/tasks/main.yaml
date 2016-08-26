@@ -1,5 +1,10 @@
+- name: Check of /home/stack/undercloud.conf exists
+  stat: path=/home/stack/undercloud.conf
+  register: existing_undercloud_conf
+
 - name: Copy undercloud.conf
-  copy: src=/usr/share/instack-undercloud/undercloud.conf.sample dest=/home/stack/undercloud.conf backup=yes
+  copy: src=/usr/share/instack-undercloud/undercloud.conf.sample dest=/home/stack/undercloud.conf
+  when: existing_undercloud_conf.stat.exists == false
 
 - name: Enable mistral in undercloud.conf
   ini_file: dest=/home/stack/undercloud.conf section=DEFAULT option=enable_mistral value=true backup=yes
