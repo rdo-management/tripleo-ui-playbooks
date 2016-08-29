@@ -63,6 +63,9 @@ Change your `hosts` file:
 
 **Note:** In a virtual env, if you use a tunnel from the VM host machine to the undercloud vm, this needs to be set to the VM host's IP/hostname.
 
+**`undercloud_conf_location`:** Parent folder location of where an existing undercloud.conf exists; defaults to /home/stack/undercloud.conf
+
+
 **`dib_install_type_puppet_modules`:** can be set to install puppet modules from source instead of using the packages. **Not recommended!**
 
 Once the `hosts` file exists you can start the installation:
