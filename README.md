@@ -77,7 +77,7 @@ This will start the whole installation using the default values in `undercloud.c
 ./rhos9-complete.sh
 ```
 
-If you'd like to make changes to `undercloud.conf` between the installation of python-tripleoclient and the undercloud, run these three commands in sequence:
+The Playbook can use an existing undercloud.conf if it is located at `undercloud_conf_location`.  Additional changes can be made to undercloud.conf between the installation of python-tripleoclient and the Undercloud installation.  If you'd like to make changes to `undercloud.conf` between the installation of python-tripleoclient and the undercloud, run these three commands in sequence:
 
 ```
 # Inside the repository directory:
