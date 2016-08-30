@@ -63,6 +63,9 @@ Change your `hosts` file:
 
 **Note:** In a virtual env, if you use a tunnel from the VM host machine to the undercloud vm, this needs to be set to the VM host's IP/hostname.
 
+**`undercloud_conf_location`:** Parent folder location of where an existing undercloud.conf exists; defaults to /home/stack
+
+
 **`dib_install_type_puppet_modules`:** can be set to install puppet modules from source instead of using the packages. **Not recommended!**
 
 Once the `hosts` file exists you can start the installation:
@@ -74,7 +77,7 @@ This will start the whole installation using the default values in `undercloud.c
 ./rhos9-complete.sh
 ```
 
-If you'd like to make changes to `undercloud.conf` between the installation of python-tripleoclient and the undercloud, run these three commands in sequence:
+The Playbook can use an existing undercloud.conf if it is located at `undercloud_conf_location`.  Additional changes can be made to undercloud.conf between the installation of python-tripleoclient and the Undercloud installation.  If you'd like to make changes to `undercloud.conf` between the installation of python-tripleoclient and the undercloud, run these three commands in sequence:
 
 ```
 # Inside the repository directory:

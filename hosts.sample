@@ -8,3 +8,5 @@ localhost   ansible_connection=local
 # Set DIB_INSTALLTYPE_puppet_modules env var.
 # Values can be "package" or "source"
 # dib_install_type_puppet_modules = package
+
+# undercloud_conf_location = /home/stack
