@@ -4,3 +4,4 @@
 - include: rhci-tripleo-api-firewall.yaml
 - include: tmux-session.yaml
 - include: capabilities-detection-patch.yaml
+- include: default-plan.yaml
