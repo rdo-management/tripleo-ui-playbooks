@@ -1,0 +1,7 @@
+- name: Patch tripleo-api http headers string conversion
+  patch: src=../files/http-headers-string-conversion.patch
+         dest=/home/stack/rhci-tripleo-api/tripleo_api/utils/meta.py
+         backup=yes
+  tags:
+    - tripleo-api
+    - tripleo-api-http-headers-string-conversion
