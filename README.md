@@ -52,7 +52,7 @@ su - stack
 Clone this repository and create a `hosts` file:
 
 ```
-git clone https://github.com/flofuchs/tripleo-ui-playbooks.git
+git clone https://github.com/rdo-management/tripleo-ui-playbooks.git
 cd tripleo-ui-playbooks
 cp hosts.sample hosts
 ```
