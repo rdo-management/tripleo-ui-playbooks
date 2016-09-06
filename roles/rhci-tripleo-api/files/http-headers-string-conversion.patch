@@ -1,0 +1,31 @@
+From f943bd4e21b7896b446c25de78814b8977a07424 Mon Sep 17 00:00:00 2001
+From: Florian Fuchs <flfuchs@redhat.com>
+Date: Thu, 01 Sep 2016 10:00:11 +0200
+Subject: [PATCH] Convert meta http header values to strings if necessary
+
+Until recently the python requests library automatically converted HTTP
+header values to strings. That's no longer the case, so boolean header
+values (like the environment enablement status) break outgoing http
+requests.
+
+(see
+https://github.com/kennethreitz/requests/issues/3477#issuecomment-238381586).
+
+This patch adds the conversion in the utils.meta module.
+
+Change-Id: I64297123b83e66cb520cc9536e5c6b32405dd08c
+---
+
+diff --git a/tripleo_api/utils/meta.py b/tripleo_api/utils/meta.py
+index 27f5a93..47a0985 100644
+--- a/tripleo_api/utils/meta.py
++++ b/tripleo_api/utils/meta.py
+@@ -22,6 +22,8 @@
+     result = dict()
+     for keyname, value in source.items():
+         new_keyname = "%s%s" % (constants.OBJECT_META_KEY_PREFIX, keyname)
++        if not isinstance(value, str):
++            value = str(value)
+         result[new_keyname] = value
+     return result
+ 

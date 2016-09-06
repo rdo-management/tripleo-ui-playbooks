@@ -5,3 +5,8 @@
 - name: Install tmux
   yum: name=tmux
   sudo: yes
+
+- name: Check of /home/stack/undercloud.conf exists
+  stat: path=/home/stack/undercloud.conf
+  register: existing_undercloud_conf
+

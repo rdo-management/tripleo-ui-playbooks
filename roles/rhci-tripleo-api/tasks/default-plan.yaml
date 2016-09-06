@@ -1,0 +1,41 @@
+- name: Check for default plan
+  shell: source ~/stackrc && swift list | grep overcloud | wc -l
+  register: default_plan_exists
+  args:
+    executable: /bin/bash
+  tags:
+    - rhci-api
+    - rhci-default-plan
+
+- name: Get plan data
+  shell: python ./default_plan.py /usr/share/openstack-tripleo-heat-templates/ overcloud
+  args:
+    chdir: "{{ role_path }}/files"
+  register: default_plan_data
+  when: default_plan_exists.stdout == "0"
+  tags:
+    - rhci-api
+    - rhci-default-plan
+
+- name: Create valid keystone auth token
+  shell: source ~/stackrc && openstack token issue | grep ' id ' | sed -E 's/^\|[^\|]+\| ([a-z0-9]+) \|$/\1/g'
+  register: keystone_token
+  args:
+    executable: /bin/bash
+  when: default_plan_exists.stdout == "0"
+  tags:
+    - rhci-api
+    - rhci-default-plan
+
+- name: Call RHCI API
+  uri:
+    url: http://localhost:8585/v1/plans
+    method: POST
+    body: "{{ default_plan_data.stdout }}"
+    body_format: json
+    HEADER_Content-Type: application/json
+    HEADER_X-Auth-Token: "{{ keystone_token.stdout }}"
+  when: default_plan_exists.stdout == "0"
+  tags:
+    - rhci-api
+    - rhci-default-plan

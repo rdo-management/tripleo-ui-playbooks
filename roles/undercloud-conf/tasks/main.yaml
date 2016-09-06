@@ -1,8 +1,13 @@
+- name: Check if "{{ undercloud_conf_location }}/undercloud.conf" exists
+  stat: path="{{ undercloud_conf_location }}/undercloud.conf"
+  register: existing_undercloud_conf
+
 - name: Copy undercloud.conf
-  copy: src=/usr/share/instack-undercloud/undercloud.conf.sample dest=/home/stack/undercloud.conf backup=yes
+  copy: src=/usr/share/instack-undercloud/undercloud.conf.sample dest="{{ undercloud_conf_location }}/undercloud.conf"
+  when: existing_undercloud_conf.stat.exists == false
 
 - name: Enable mistral in undercloud.conf
-  ini_file: dest=/home/stack/undercloud.conf section=DEFAULT option=enable_mistral value=true backup=yes
+  ini_file: dest="{{ undercloud_conf_location }}/undercloud.conf" section=DEFAULT option=enable_mistral value=true backup=yes
 
 - name: Enable zaqar in undercloud.conf
-  ini_file: dest=/home/stack/undercloud.conf section=DEFAULT option=enable_zaqar value=true
+  ini_file: dest="{{ undercloud_conf_location }}/undercloud.conf" section=DEFAULT option=enable_zaqar value=true

@@ -1,1 +1,2 @@
 dib_install_type_puppet_modules: package
+undercloud_conf_location: /home/stack
