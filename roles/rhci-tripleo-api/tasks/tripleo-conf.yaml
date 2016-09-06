@@ -34,14 +34,22 @@
     - tripleo-api
     - tripleo-api-conf
 
+- name: Get local_ip from undercloud.conf
+  shell: "bash {{ role_path }}/files/get_local_ip.sh"
+  register: local_ip
+  tags:
+    - tripleo-api
+    - tripleo-api-conf
+    - tripleo-api-keystone-ip
+
 - name: Set keystone auth_url in tripleo.conf
-  ini_file: dest="/home/stack/rhci-tripleo-api/tripleo.conf" section=keystone option=auth_url value=http://192.0.2.1:35357/v2.0
+  ini_file: dest="/home/stack/rhci-tripleo-api/tripleo.conf" section=keystone option=auth_url value="http://{{ local_ip.stdout }}:35357/v2.0"
   tags:
     - tripleo-api
     - tripleo-api-conf
 
 - name: Set keystone_authtoken identity_uri in tripleo.conf
-  ini_file: dest="/home/stack/rhci-tripleo-api/tripleo.conf" section=keystone_authtoken option=identity_uri value=http://192.0.2.1:35357/
+  ini_file: dest="/home/stack/rhci-tripleo-api/tripleo.conf" section=keystone_authtoken option=identity_uri value="http://{{ local_ip.stdout }}:35357/"
   tags:
     - tripleo-api
     - tripleo-api-conf
