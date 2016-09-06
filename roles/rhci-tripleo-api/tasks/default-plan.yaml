@@ -4,8 +4,8 @@
   args:
     executable: /bin/bash
   tags:
-    - rhci-api
-    - rhci-default-plan
+    - tripleo-api
+    - tripleo-api-default-plan
 
 - name: Get plan data
   shell: python ./default_plan.py /usr/share/openstack-tripleo-heat-templates/ overcloud
@@ -14,8 +14,8 @@
   register: default_plan_data
   when: default_plan_exists.stdout == "0"
   tags:
-    - rhci-api
-    - rhci-default-plan
+    - tripleo-api
+    - tripleo-api-default-plan
 
 - name: Create valid keystone auth token
   shell: source ~/stackrc && openstack token issue | grep ' id ' | sed -E 's/^\|[^\|]+\| ([a-z0-9]+) \|$/\1/g'
@@ -24,8 +24,13 @@
     executable: /bin/bash
   when: default_plan_exists.stdout == "0"
   tags:
-    - rhci-api
-    - rhci-default-plan
+    - tripleo-api
+    - tripleo-api-default-plan
+
+- wait_for: host=127.0.0.1 port=8585
+  tags:
+    - tripleo-api
+    - tripleo-api-default-plan
 
 - name: Call RHCI API
   uri:
@@ -37,5 +42,5 @@
     HEADER_X-Auth-Token: "{{ keystone_token.stdout }}"
   when: default_plan_exists.stdout == "0"
   tags:
-    - rhci-api
-    - rhci-default-plan
+    - tripleo-api
+    - tripleo-api-default-plan
