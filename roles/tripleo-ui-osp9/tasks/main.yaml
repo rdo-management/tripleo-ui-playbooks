@@ -2,103 +2,149 @@
   git: repo=https://github.com/rdo-management/rdo-director-ui-production.git
        dest=/home/stack/tripleo-ui
        depth=1
+       version=poc2
+  tags:
+    - tripleo-ui
+
+- name: Enable heat URI param in app.conf
+  patch: src="{{ role_path }}/files/heat_url_param.patch"
+         dest=/home/stack/tripleo-ui/tripleo_ui/app.py
+         backup=yes
+  tags:
+    - tripleo-ui
 
 - name: Copy app.conf
   copy: src=/home/stack/tripleo-ui/app.conf.sample
         dest=/home/stack/tripleo-ui/app.conf
+  tags:
+    - tripleo-ui
 
 - name: Set app port  in app.conf
   ini_file: dest=/home/stack/tripleo-ui/app.conf
             section=service
             option=bind_port
             value=8889
+  tags:
+    - tripleo-ui
 
 - name: Set tripleO API URL in app.conf
   ini_file: dest=/home/stack/tripleo-ui/app.conf
             section=app
             option=tripleo
             value="http://{{ undercloud_service_host }}:8585/v1"
+  tags:
+    - tripleo-ui
 
 - name: Set validations API URL in app.conf
   ini_file: dest=/home/stack/tripleo-ui/app.conf
             section=app
             option=validations
             value="http://{{ undercloud_service_host }}:5001/v1"
+  tags:
+    - tripleo-ui
 
 - name: Get keystone url
   shell: source ~/stackrc && openstack catalog show keystone | grep publicURL | sed -E 's/^.*(https?:\/\/)[^:]+(:[^ \|]+).*/\1{{ undercloud_service_host }}\2/g'
   register: keystone_url
   args:
     executable: /bin/bash
+  tags:
+    - tripleo-ui
 
 - name: Set keystone API URL in app.conf
   ini_file: dest=/home/stack/tripleo-ui/app.conf
             section=app
             option=keystone
             value={{ keystone_url.stdout }}
+  tags:
+    - tripleo-ui
 
 - name: Get heat url
   shell: source ~/stackrc && openstack catalog show heat | grep publicURL | sed -E 's/^.*(https?:\/\/)[^:]+(:[^ \|]+).*/\1{{ undercloud_service_host }}\2/g'
   register: heat_url
   args:
     executable: /bin/bash
+  tags:
+    - tripleo-ui
 
 - name: Set heat API URL in app.conf
   ini_file: dest=/home/stack/tripleo-ui/app.conf
             section=app
             option=heat
             value={{ heat_url.stdout }}
+  tags:
+    - tripleo-ui
 
 - name: Get swift url
   shell: source ~/stackrc && openstack catalog show swift | grep publicURL | sed -E 's/^.*(https?:\/\/)[^:]+(:[^ \|]+).*/\1{{ undercloud_service_host }}\2/g'
   register: swift_url
   args:
     executable: /bin/bash
+  tags:
+    - tripleo-ui
 
 - name: Set swift API URL in app.conf
   ini_file: dest=/home/stack/tripleo-ui/app.conf
             section=app
             option=swift
             value={{ swift_url.stdout }}
+  tags:
+    - tripleo-ui
 
 - name: Get ironic url
   shell: source ~/stackrc && openstack catalog show ironic | grep publicURL | sed -E 's/^.*(https?:\/\/)[^:]+(:[^ \|]+).*/\1{{ undercloud_service_host }}\2/g'
   register: ironic_url
   args:
     executable: /bin/bash
+  tags:
+    - tripleo-ui
 
 - name: Set ironic API URL in app.conf
   ini_file: dest=/home/stack/tripleo-ui/app.conf
             section=app
             option=ironic
             value={{ ironic_url.stdout }}
+  tags:
+    - tripleo-ui
 
 - name: Get mistral url
   shell: source ~/stackrc && openstack catalog show mistral | grep publicURL | sed -E 's/^.*(https?:\/\/)[^:]+(:[^ \|]+).*/\1{{ undercloud_service_host }}\2/g'
   register: mistral_url
   args:
     executable: /bin/bash
+  tags:
+    - tripleo-ui
 
 - name: Set mistral API URL in app.conf
   ini_file: dest=/home/stack/tripleo-ui/app.conf
             section=app
             option=mistral
             value={{ mistral_url.stdout }}
+  tags:
+    - tripleo-ui
 
 - name: Set zaqar websocket URL in app.conf
   ini_file: dest=/home/stack/tripleo-ui/app.conf
             section=app
             option=zaqar_websocket_url
             value="ws://{{ undercloud_service_host }}:9000"
+  tags:
+    - tripleo-ui
 
 - name: Check for existing tripleo-ui tmux session
   shell: tmux ls | grep tripleo-ui | wc -l
   register: tripleo_ui_session_exists
+  tags:
+    - tripleo-ui
 
 - name: Kill existing tripleo-ui tmux session
   shell: tmux kill-session -t tripleo-ui
   ignore_errors: yes
   when: tripleo_ui_session_exists.stdout == "1"
+  tags:
+    - tripleo-ui
 
 - name: Create tmux session
   shell: tmux new -s tripleo-ui -d && tmux send-keys -t tripleo-ui 'cd ~/tripleo-ui' C-m && tmux send-keys -t tripleo-ui 'tox -e venv tripleo-ui -- --config-file app.conf' C-m
+  tags:
+    - tripleo-ui

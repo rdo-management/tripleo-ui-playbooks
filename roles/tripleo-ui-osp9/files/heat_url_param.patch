@@ -1,0 +1,12 @@
+--- tripleo_ui/app.py	2016-09-07 10:19:04.129636627 -0400
++++ tripleo_ui/app.py_new	2016-09-07 10:24:11.673636627 -0400
+@@ -42,6 +42,9 @@
+                         cfg.StrOpt('heat',
+                                    default=None,
+                                    help='Heat API URL'),
++                        cfg.StrOpt('ironic',
++                                   default=None,
++                                   help='Ironic API URL'),
+                         cfg.StrOpt('swift',
+                                    default=None,
+                                    help='Swift API URL'),
