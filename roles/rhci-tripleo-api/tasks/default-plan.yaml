@@ -40,6 +40,7 @@
     body_format: json
     HEADER_Content-Type: application/json
     HEADER_X-Auth-Token: "{{ keystone_token.stdout }}"
+    timeout: 120
   when: default_plan_exists.stdout == "0"
   tags:
     - tripleo-api
