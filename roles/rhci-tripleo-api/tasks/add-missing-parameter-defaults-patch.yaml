@@ -1,0 +1,8 @@
+- name: Patch tripleo-api missing parameter_defaults
+  patch: src=../files/add-missing-parameter-defaults.patch
+         dest=/home/stack/rhci-tripleo-api/tripleo_api/deploy.py
+         backup=yes
+  tags:
+    - tripleo-api
+    - missing-parameter-defaults
+

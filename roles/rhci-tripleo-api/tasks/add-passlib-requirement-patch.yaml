@@ -1,0 +1,8 @@
+- name: Patch tripleo-api passlib dependecy
+  patch: src=../files/add-passlib-requirement.patch
+         dest=/home/stack/rhci-tripleo-api/requirements.txt
+         backup=yes
+  tags:
+    - tripleo-api
+    - passlib-dependency
+

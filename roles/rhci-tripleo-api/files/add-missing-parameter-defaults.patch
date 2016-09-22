@@ -1,0 +1,75 @@
+diff --git a/tripleo_api/deploy.py b/tripleo_api/deploy.py
+index 0248128..66fb1ed 100644
+--- a/tripleo_api/deploy.py
++++ b/tripleo_api/deploy.py
+@@ -16,6 +16,7 @@
+ import json
+ import logging
+ import os
++import passlib.utils as passutils
+ import tempfile
+ import time
+ 
+@@ -28,6 +29,38 @@ from tripleo_api import utils
+ LOG = logging.getLogger(__name__)
+ 
+ 
++_MIN_PWD_SIZE = 25
++_PASSWORD_NAMES = (
++    "AdminPassword",
++    "AdminToken",
++    "AodhPassword",
++    "CeilometerPassword",
++    "CeilometerSecret",
++    "CeilometerMeteringSecret",
++    "CinderPassword",
++    "DemoPassword",
++    "GlancePassword",
++    "GnocchiPassword",
++    "HAProxyStatsPassword",
++    "HeatPassword",
++    "HeatStackDomainPassword",
++    "HeatStackDomainAdminPassword",
++    "MysqlClustercheckPassword",
++    "NeutronPassword",
++    "NovaPassword",
++    "RabbitmqPassword",
++    "RabbitPassword",
++    "RedisPassword",
++    "SaharaPassword",
++    "SnmpdReadonlyUserPassword",
++    "SwiftHash",
++    "SwiftHashSuffix",
++    "SwiftPassword",
++    "NeutronMetadataProxySharedSecret",
++)
++
++
++
+ class DeployManager(object):
+     """A manager to handle deploying to Heat.
+ 
+@@ -99,6 +132,23 @@ class DeployManager(object):
+         stack_args.update({'parameters': parameters})
+ 
+         if self.stack is None:
++            # StackAction and the overcloud passwords are added to
++            # parameter_defaults, not parameters, because otherwise heat
++            # validation would not pass.
++            #
++            # Add required StackAction value to parameter_defaults.
++            environment['parameter_defaults']['StackAction'] = 'CREATE'
++            # Add overcloud passwords to parameter_defaults.
++            passwords = {}
++            for name in _PASSWORD_NAMES:
++                if not environment['parameter_defaults'].get(name) :
++                    if parameters.get(name):
++                        password = parameters[name]
++                    else:
++                        password = passutils.generate_password(
++                            size=_MIN_PWD_SIZE)
++                    passwords[name] = password
++            environment['parameter_defaults'].update(passwords)
+             try:
+                 tmp_env_file = tempfile.mkstemp()
+                 with open(tmp_env_file[1], 'w') as parameter_defaults_data_file:

@@ -28,6 +28,7 @@
     - tripleo-api-default-plan
 
 - wait_for: host=127.0.0.1 port=8585
+  when: default_plan_exists.stdout == "0"
   tags:
     - tripleo-api
     - tripleo-api-default-plan
