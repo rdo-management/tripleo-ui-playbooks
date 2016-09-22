@@ -6,6 +6,31 @@
   tags:
     - tripleo-ui
 
+- name: Check firewall status for port 8889
+  shell: grep 8889 /etc/sysconfig/iptables | wc -l
+  sudo: yes
+  register: iptables_tripleo_ui_api
+  ignore_errors: True
+  tags:
+    - tripleo-ui
+    - tripleo-ui-firewall
+
+- name: Open port 8889 in firewall
+  shell: iptables -A INPUT -p tcp -m tcp --dport 8889 -j ACCEPT && iptables-save > /etc/sysconfig/iptables
+  sudo: yes
+  when: iptables_tripleo_ui_api.stdout == "0"
+  tags:
+    - tripleo-ui
+    - tripleo-ui-firewall
+
+- name: Restart iptables
+  service:  name=iptables state=restarted
+  sudo: yes
+  when: iptables_tripleo_ui_api.stdout == "0"
+  tags:
+    - tripleo-ui
+    - tripleo-ui-firewall
+
 - name: Enable heat URI param in app.conf
   patch: src="{{ role_path }}/files/heat_url_param.patch"
          dest=/home/stack/tripleo-ui/tripleo_ui/app.py

@@ -7,7 +7,7 @@
     - tripleo-api-conf
 
 - name: Set cors allowed_origin in tripleo.conf
-  ini_file: dest="/home/stack/rhci-tripleo-api/tripleo.conf" section=cors option=allowed_origin value=* backup=yes
+  ini_file: dest="/home/stack/rhci-tripleo-api/tripleo.conf" section=cors option=allowed_origin value=*
   tags:
     - tripleo-api
     - tripleo-api-conf
