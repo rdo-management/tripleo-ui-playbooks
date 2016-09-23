@@ -6,6 +6,10 @@ set -e
 # Install the latest puddle
 sudo yum localinstall -y http://rhos-release.virt.bos.redhat.com/repos/rhos-release/rhos-release-latest.noarch.rpm
 
+# Install python-cryptography from 9, since it's not included in 10
+sudo rhos-release 9
+sudo yum install -y python-cryptography
+
 # Install mistral packages from rhos10
 sudo rhos-release 10
 sudo yum install -y openstack-mistral-all
