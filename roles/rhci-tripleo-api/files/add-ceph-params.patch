@@ -8,7 +8,7 @@ index 4bdd9b7..6c9f220 100644
  python-swiftclient>=2.2.0
 +six>=1.9.0 # MIT
 diff --git a/tripleo_api/deploy.py b/tripleo_api/deploy.py
-index 66fb1ed..d22d790 100644
+index 66fb1ed..08bb830 100644
 --- a/tripleo_api/deploy.py
 +++ b/tripleo_api/deploy.py
 @@ -13,12 +13,16 @@
@@ -28,12 +28,14 @@ index 66fb1ed..d22d790 100644
  
  from heatclient.common import template_utils
  from os_cloud_config import keystone_pki
-@@ -60,6 +64,13 @@ _PASSWORD_NAMES = (
+@@ -60,6 +64,15 @@ _PASSWORD_NAMES = (
  )
  
  
 +def _create_cephx_key():
-+    # NOTE(gfidente): Taken from
++    # NOTE(flfuchs): Taken from
++    # https://github.com/openstack/python-tripleoclient/blob/stable/mitaka/tripleoclient/utils.py#L596
++    # Originally from:
 +    # https://github.com/ceph/ceph-deploy/blob/master/ceph_deploy/new.py#L21
 +    key = os.urandom(16)
 +    header = struct.pack("<hiih", 1, int(time.time()), 0, len(key))
@@ -42,7 +44,7 @@ index 66fb1ed..d22d790 100644
  
  class DeployManager(object):
      """A manager to handle deploying to Heat.
-@@ -149,6 +160,13 @@ class DeployManager(object):
+@@ -149,6 +162,13 @@ class DeployManager(object):
                              size=_MIN_PWD_SIZE)
                      passwords[name] = password
              environment['parameter_defaults'].update(passwords)
