@@ -4,5 +4,6 @@
          backup=yes
   tags:
     - tripleo-api
-    - passlib-dependency
+    - tripleo-api-passlib-dependency
+    - tripleo-api-patches
 

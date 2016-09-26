@@ -3,34 +3,56 @@
        dest=/home/stack/clapper
        update=no
        version=ansible1.9
+  tags:
+    - validations
 
 - name: Install requirements
   pip: requirements=/home/stack/clapper/ansible-tests/requirements.txt virtualenv=/home/stack/clapper/ansible-tests/.venv
+  tags:
+    - validations
 
 - name: Check firewall status for port 5001
   shell: grep 5001 /etc/sysconfig/iptables | wc -l
   sudo: yes
   register: iptables_validations_api
   ignore_errors: True
+  tags:
+    - validations
 
 - name: Open port 5001 in firewall
   shell: iptables -A INPUT -p tcp -m tcp --dport 5001 -j ACCEPT && iptables-save > /etc/sysconfig/iptables
   sudo: yes
   when: iptables_validations_api.stdout == "0"
+  tags:
+    - validations
 
 - name: Restart iptables
   service:  name=iptables state=restarted
   sudo: yes
   when: iptables_validations_api.stdout == "0"
+  tags:
+    - validations
 
 - name: Check for existing validations-api tmux session
   shell: tmux ls | grep validations-api | wc -l
   register: validations_api_session_exists
+  tags:
+    - validations
+    - validations-tmux-session
+    - tmux-session
 
 - name: Kill existing validations-api tmux session
   shell: tmux kill-session -t validations-api
   ignore_errors: yes
   when: validations_api_session_exists.stdout == "1"
+  tags:
+    - validations
+    - validations-tmux-session
+    - tmux-session
 
 - name: Create validations-api tmux session
   shell: tmux new -s validations-api -d && tmux send-keys -t validations-api 'cd ~/clapper/ansible-tests' C-m && tmux send-keys -t validations-api 'source .venv/bin/activate' C-m && tmux send-keys -t validations-api 'source ~/stackrc' C-m && tmux send-keys -t validations-api './validation-api.py' C-m 
+  tags:
+    - validations
+    - validations-tmux-session
+    - tmux-session

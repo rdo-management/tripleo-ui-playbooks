@@ -6,5 +6,6 @@
 - include: http-headers-string-conversion-patch.yaml
 - include: add-missing-parameter-defaults-patch.yaml
 - include: add-passlib-requirement-patch.yaml
+- include: add-ceph-params-patch.yaml
 - include: tmux-session.yaml
 - include: default-plan.yaml

@@ -1,0 +1,9 @@
+- name: Patch tripleo-api add ceph params
+  shell: "git apply {{ role_path }}/files/add-ceph-params.patch"
+  args:
+    chdir: "/home/stack/rhci-tripleo-api/"
+  tags:
+    - tripleo-api
+    - tripleo-api-patches
+    - tripleo-api-add-ceph-params 
+

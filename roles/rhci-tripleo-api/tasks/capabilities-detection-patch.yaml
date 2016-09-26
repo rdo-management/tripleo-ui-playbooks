@@ -4,5 +4,6 @@
          backup=yes
   tags:
     - tripleo-api
-    - capabilities-map-detection
+    - tripleo-api-capabilities-map-detection
+    - tripleo-api-patches
 

@@ -161,6 +161,8 @@
   register: tripleo_ui_session_exists
   tags:
     - tripleo-ui
+    - tripleo-ui-tmux-session
+    - tmux-session
 
 - name: Kill existing tripleo-ui tmux session
   shell: tmux kill-session -t tripleo-ui
@@ -168,8 +170,12 @@
   when: tripleo_ui_session_exists.stdout == "1"
   tags:
     - tripleo-ui
+    - tripleo-ui-tmux-session
+    - tmux-session
 
 - name: Create tmux session
   shell: tmux new -s tripleo-ui -d && tmux send-keys -t tripleo-ui 'cd ~/tripleo-ui' C-m && tmux send-keys -t tripleo-ui 'tox -e venv tripleo-ui -- --config-file app.conf' C-m
   tags:
     - tripleo-ui
+    - tripleo-ui-tmux-session
+    - tmux-session

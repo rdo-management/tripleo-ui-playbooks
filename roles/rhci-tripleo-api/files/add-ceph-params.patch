@@ -1,0 +1,58 @@
+diff --git a/requirements.txt b/requirements.txt
+index 4bdd9b7..6c9f220 100644
+--- a/requirements.txt
++++ b/requirements.txt
+@@ -13,3 +13,4 @@ passlib>=1.6 # BSD
+ python-heatclient>=0.6.0
+ python-keystoneclient>=1.6.0,!=1.8.0
+ python-swiftclient>=2.2.0
++six>=1.9.0 # MIT
+diff --git a/tripleo_api/deploy.py b/tripleo_api/deploy.py
+index 66fb1ed..d22d790 100644
+--- a/tripleo_api/deploy.py
++++ b/tripleo_api/deploy.py
+@@ -13,12 +13,16 @@
+ # License for the specific language governing permissions and limitations
+ # under the License.
+ 
++import base64
+ import json
+ import logging
+ import os
+ import passlib.utils as passutils
++import six
++import struct
+ import tempfile
+ import time
++import uuid
+ 
+ from heatclient.common import template_utils
+ from os_cloud_config import keystone_pki
+@@ -60,6 +64,13 @@ _PASSWORD_NAMES = (
+ )
+ 
+ 
++def _create_cephx_key():
++    # NOTE(gfidente): Taken from
++    # https://github.com/ceph/ceph-deploy/blob/master/ceph_deploy/new.py#L21
++    key = os.urandom(16)
++    header = struct.pack("<hiih", 1, int(time.time()), 0, len(key))
++    return base64.b64encode(header + key)
++
+ 
+ class DeployManager(object):
+     """A manager to handle deploying to Heat.
+@@ -149,6 +160,13 @@ class DeployManager(object):
+                             size=_MIN_PWD_SIZE)
+                     passwords[name] = password
+             environment['parameter_defaults'].update(passwords)
++            # Create Ceph params
++            environment['parameter_defaults'].update({
++                'CephClusterFSID': six.text_type(uuid.uuid1()),
++                'CephMonKey': _create_cephx_key(),
++                'CephAdminKey': _create_cephx_key(),
++                'CephClientKey': _create_cephx_key()
++            })
+             try:
+                 tmp_env_file = tempfile.mkstemp()
+                 with open(tmp_env_file[1], 'w') as parameter_defaults_data_file:

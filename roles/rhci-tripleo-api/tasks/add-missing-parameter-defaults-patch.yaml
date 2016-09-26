@@ -4,5 +4,6 @@
          backup=yes
   tags:
     - tripleo-api
-    - missing-parameter-defaults
+    - tripleo-api-missing-parameter-defaults
+    - tripleo-api-patches
 
