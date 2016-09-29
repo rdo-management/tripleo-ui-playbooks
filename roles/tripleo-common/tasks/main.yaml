@@ -6,6 +6,14 @@
     - tripleo-common
     - tripleo-common-update
 
+- name: Checkout 5.0.0 commit
+  shell: git checkout -b 15c97e 15c97e63c061a01df5b590dadd9c154b6165d718
+  args:
+    chdir: /home/stack/tripleo-common
+  tags:
+    - tripleo-common
+    - tripleo-common-update
+
 - name: Remove existing tripleo-common installation
   shell: rm -Rf /usr/lib/python2.7/site-packages/tripleo_common*
   sudo: yes
