@@ -7,7 +7,7 @@ set -e
 sudo yum localinstall -y http://rhos-release.virt.bos.redhat.com/repos/rhos-release/rhos-release-latest.noarch.rpm
 
 # Install mistral packages from rhos10
-sudo rhos-release 10 -p 2016-09-07.6
+sudo rhos-release 10 -p 2016-09-06.1
 sudo yum install -y openstack-mistral-all
 sudo yum install -y openstack-mistral-api
 sudo yum install -y openstack-mistral-engine
